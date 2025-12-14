@@ -1,50 +1,38 @@
 pipeline {
-    agent any
+  agent any
 
-    tools {
-        jdk 'JDK17'
-        maven 'Maven3'
-    }
+  stages {
+   
+   stage('clone project') {
+      steps {
+           git branch:'master' , url:'https://github.com/PraveenKuberABC/Amazon-Ecom.git'
+       }
+   }
 
-    stages {
+   stage('clean') {
+      steps {
+           sh 'mvn clean'
+       }
+   }
 
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
+   stage('compile') {
+      steps {
+           sh 'mvn compile'
+       }
+   }
 
-        stage('Clean') {
-            steps {
-                bat 'mvn clean'
-            }
-        }
+   stage('test') {
+      steps {
+           sh 'mvn test'
+       }
+   }
 
-        stage('Compile') {
-            steps {
-                bat 'mvn compile'
-            }
-        }
+   stage('build') {
+      steps {
+           sh 'mvn clean install'
+       }
+   }
+   
+}
 
-        stage('Test') {
-            steps {
-                bat 'mvn test'
-            }
-        }
-
-        stage('Build') {
-            steps {
-                bat 'mvn clean install'
-            }
-        }
-    }
-
-    post {
-        success {
-            echo '✅ Build completed successfully'
-        }
-        failure {
-            echo '❌ Build failed'
-        }
-    }
 }
