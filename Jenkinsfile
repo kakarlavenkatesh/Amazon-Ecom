@@ -1,38 +1,46 @@
 pipeline {
-  agent any
+    agent any   // runs on Windows agent
 
-  stages {
-   
-   stage('clone project') {
-      steps {
-           git branch:'master' , url:'https://github.com/PraveenKuberABC/Amazon-Ecom.git'
-       }
-   }
+    stages {
 
-   stage('clean') {
-      steps {
-           sh 'mvn clean'
-       }
-   }
+        stage('Clone Project') {
+            steps {
+                git branch: 'master',
+                    url: 'https://github.com/PraveenKuberABC/Amazon-Ecom.git'
+            }
+        }
 
-   stage('compile') {
-      steps {
-           sh 'mvn compile'
-       }
-   }
+        stage('Clean') {
+            steps {
+                bat 'mvn clean'
+            }
+        }
 
-   stage('test') {
-      steps {
-           sh 'mvn test'
-       }
-   }
+        stage('Compile') {
+            steps {
+                bat 'mvn compile'
+            }
+        }
 
-   stage('build') {
-      steps {
-           sh 'mvn clean install'
-       }
-   }
-   
-}
+        stage('Test') {
+            steps {
+                bat 'mvn test'
+            }
+        }
 
+        stage('Build') {
+            steps {
+                bat 'mvn clean install'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo '✅ Build completed successfully on Windows agent'
+        }
+        failure {
+            echo '❌ Build failed on Windows agent'
+        }
+    }
 }
