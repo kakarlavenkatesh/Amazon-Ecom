@@ -1,12 +1,16 @@
 pipeline {
-    agent any   // runs on Windows agent
+    agent any
+
+    tools {
+        maven 'Maven3'
+        jdk 'JDK17'   // optional but recommended
+    }
 
     stages {
 
-        stage('Clone Project') {
+        stage('Checkout') {
             steps {
-                git branch: 'master',
-                    url: 'https://github.com/PraveenKuberABC/Amazon-Ecom.git'
+                checkout scm
             }
         }
 
