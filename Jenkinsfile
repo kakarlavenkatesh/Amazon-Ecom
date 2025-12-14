@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     tools {
+        jdk 'JDK17'
         maven 'Maven3'
-        jdk 'JDK17'   // optional but recommended
     }
 
     stages {
@@ -41,10 +41,10 @@ pipeline {
 
     post {
         success {
-            echo '✅ Build completed successfully on Windows agent'
+            echo '✅ Build completed successfully'
         }
         failure {
-            echo '❌ Build failed on Windows agent'
+            echo '❌ Build failed'
         }
     }
 }
